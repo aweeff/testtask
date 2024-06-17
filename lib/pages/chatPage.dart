@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:testtask/components/chatBlocks.dart';
 import 'package:testtask/components/textFields.dart';
 import 'package:testtask/services/chatting/chatService.dart';
 
@@ -85,7 +84,7 @@ class _ChatPageState extends State<ChatPage>{
             ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text(data['senderEmail']),
-          Text(data['message']),
+          ChatBlocks(message: data['message']),
         ],
       ),
       ),
