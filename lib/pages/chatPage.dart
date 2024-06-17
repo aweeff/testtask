@@ -44,49 +44,48 @@ class _ChatPageState extends State<ChatPage>{
     );
   }
 
-  Widget _messageList(){
+  Widget _messageList() {
     return StreamBuilder(
-        stream: _chatService.getMessages(
-            widget.receiverUserId,
-            _firebaseAuth.currentUser!.uid
-        ),
-
-        builder: (context, snapshot) {
-          if (snapshot.hasError){
-            return Text('Error${snapshot.error}');
-          }
-          if (snapshot.connectionState == ConnectionState.waiting){
-            return const Text('Loading..');
-          }
-          return ListView(
-            children: snapshot.data!.docs
-                .map((document) => _messageItem(document))
-                .toList(),
-
-          );
-
+      stream: _chatService.getMessages(widget.receiverUserId, _firebaseAuth.currentUser!.uid),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
         }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        List<DocumentSnapshot> messages = snapshot.data!.docs;
+        // Reverse the list to display messages from top to bottom
+        messages = messages.toList();
+        return ListView.builder(
+          itemCount: messages.length,
+          itemBuilder: (context, index) {
+            return _messageItem(messages[index]);
+          },
+        );
+      },
     );
   }
 
-  Widget _messageItem(DocumentSnapshot document){
+
+
+  Widget _messageItem(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
-    var alignment = (data['senderId'] == _firebaseAuth.currentUser!.uid)
-        ? Alignment.centerRight : Alignment.centerLeft;
+    bool isSender = data['senderId'] == _firebaseAuth.currentUser!.uid;
 
     return Container(
-      alignment: alignment,
+      alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
       child: Padding(
-       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: (data['senderId'] == _firebaseAuth.currentUser!.uid)
-            ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          Text(data['senderEmail']),
-          ChatBlocks(message: data['message']),
-        ],
-      ),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            Text(data['senderEmail']),
+            Text(data['message']),
+            // Add additional UI components as needed (e.g., timestamp)
+          ],
+        ),
       ),
     );
   }
