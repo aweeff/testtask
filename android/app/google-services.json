@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "478185234712",
+    "project_id": "messengerapp-adea0",
+    "storage_bucket": "messengerapp-adea0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478185234712:android:89d339be84815fbafffe6d",
+        "android_client_info": {
+          "package_name": "com.example.testtask"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdxIpQrV9Fk8kunJNQkTa-F-SDMl4xbMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
