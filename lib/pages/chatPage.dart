@@ -82,7 +82,7 @@ class _ChatPageState extends State<ChatPage>{
           crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Text(data['senderEmail']),
-            Text(data['message']),
+            ChatBlocks(message: data['message']),
             // Add additional UI components as needed (e.g., timestamp)
           ],
         ),
