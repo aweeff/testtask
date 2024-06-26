@@ -2,9 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../components/buttons.dart';
-import '../components/textFields.dart';
 import '../services/auth/AuthService.dart';
 import 'chatPage.dart';
 
@@ -38,7 +35,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Chats'),
         actions: [
-          IconButton(onPressed: signOut, icon: Icon(Icons.logout))
+          IconButton(onPressed: signOut, icon: const Icon(Icons.logout))
         ],
       ),
       body: Column(
@@ -60,11 +57,12 @@ class _HomePageState extends State<HomePage> {
         ),
         child: TextField(
           controller: _searchController,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             prefixIcon: Icon(Icons.search),
             hintText: 'Search users by email',
             border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
           ),
           onChanged: (value) {
             setState(() {
@@ -75,7 +73,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 
   Widget _userListItem(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
@@ -108,24 +105,22 @@ class _HomePageState extends State<HomePage> {
           return Text('Error: ${snapshot.error}');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         List<DocumentSnapshot> filteredUsers = snapshot.data!.docs.where((doc) {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           String userEmail = data['email'];
-          return userEmail.toLowerCase().contains(_searchController.text.toLowerCase());
+          return userEmail
+              .toLowerCase()
+              .contains(_searchController.text.toLowerCase());
         }).toList();
 
         return ListView(
-          children: filteredUsers
-              .map<Widget>((doc) => _userListItem(doc))
-              .toList(),
+          children:
+              filteredUsers.map<Widget>((doc) => _userListItem(doc)).toList(),
         );
       },
     );
   }
-
-
-
 }
